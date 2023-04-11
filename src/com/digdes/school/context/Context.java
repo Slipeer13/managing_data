@@ -2,7 +2,6 @@ package com.digdes.school.context;
 
 import com.digdes.school.controller.Controller;
 import com.digdes.school.controller.ControllerImpl;
-import com.digdes.school.entity.Entity;
 import com.digdes.school.entity.User;
 import com.digdes.school.repository.UserRepository;
 import com.digdes.school.repository.UserRepositoryImpl;

@@ -7,6 +7,7 @@ public class User implements Entity{
     private Long age;
     private Boolean active;
 
+    @Override
     public boolean hasNonNullFields() {
         return id != null || lastName != null || cost != null || age != null || active != null;
     }
