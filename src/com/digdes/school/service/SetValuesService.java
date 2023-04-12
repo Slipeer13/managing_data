@@ -3,6 +3,8 @@ package com.digdes.school.service;
 import com.digdes.school.entity.Entity;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -20,37 +22,32 @@ public class SetValuesService {
                 String nameField = field.getName().toLowerCase(Locale.ROOT);
                 if (nameField.equals(token)) {
                     String typeField = field.getType().getSimpleName();
-                    /*String methodName = "set" + nameField.substring(0, 1).toUpperCase() + nameField.substring(1);
-                    Method method;*/
+                    String methodName = "set" + nameField.substring(0, 1).toUpperCase() + nameField.substring(1);
+                    Method method;
+                    String value = stringTokenizer.nextToken();
                     try {
                         switch (typeField) {
                             case "Long", "long" -> {
-                                field.set(entity, Long.parseLong(stringTokenizer.nextToken()));
-                                /*method = entity.getClass().getMethod(methodName, Long.class);
-                                method.invoke(entity, Long.parseLong(stringTokenizer.nextToken()));*/
+                                method = entity.getClass().getMethod(methodName, Long.class);
+                                method.invoke(entity, Long.parseLong(value));
                             }
                             case "int", "Integer" -> {
-                                field.set(entity, Integer.parseInt(stringTokenizer.nextToken()));
-                               /* method = entity.getClass().getMethod(methodName, Integer.class);
-                                method.invoke(entity, Integer.parseInt(stringTokenizer.nextToken()));*/
+                                method = entity.getClass().getMethod(methodName, Integer.class);
+                                method.invoke(entity, Integer.parseInt(value));
                             }
                             case "String" -> {
-                                field.set(entity, stringTokenizer.nextToken());
-                                /*method = entity.getClass().getMethod(methodName, String.class);
-                                method.invoke(entity, stringTokenizer.nextToken());*/
+                                field.set(entity, value);
                             }
                             case "double", "Double" -> {
-                                field.set(entity, Double.valueOf(stringTokenizer.nextToken()));
-                                /*method = entity.getClass().getMethod(methodName, Double.class);
-                                method.invoke(entity, Double.valueOf(stringTokenizer.nextToken()));*/
+                                method = entity.getClass().getMethod(methodName, Double.class);
+                                method.invoke(entity, Double.valueOf(value));
                             }
                             case "boolean", "Boolean" -> {
-                                field.set(entity, Boolean.parseBoolean(stringTokenizer.nextToken()));
-                                /*method = entity.getClass().getMethod(methodName, Boolean.class);
-                                method.invoke(entity, Boolean.parseBoolean(stringTokenizer.nextToken()));*/
+                                method = entity.getClass().getMethod(methodName, Boolean.class);
+                                method.invoke(entity, Boolean.parseBoolean(value));
                             }
                         }
-                    } catch (IllegalAccessException e) {
+                    } catch (IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
                         e.printStackTrace();
                     }
                 }
